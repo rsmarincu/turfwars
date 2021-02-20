@@ -212,7 +212,7 @@ go_module(
 go_mod_download(
     name = "protobuf_download",
     module = "github.com/golang/protobuf",
-    version = "v1.4.3",
+    version = "v1.4.2",
 )
 
 go_module(

@@ -9,9 +9,12 @@
 ; version = 15.16.0
 
 [go]
-;gotool = ...
+gotool = //third_party/go:toolchain|go
 goroot = /usr/local/go
 importpath = turfwars
 
-[build]
-path = /home/robert/go/bin:/usr/local/bin:/usr/bin:/bin
+[proto]
+protoctool = //third_party/proto:protoc
+protocgoplugin = //third_party/go:protoc-gen-go
+language = go
+
