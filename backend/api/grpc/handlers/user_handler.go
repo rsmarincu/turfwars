@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"golang.org/x/net/context"
-	userpb "turfwars/backend/api/proto/user"
+	userpb "turfwars/backend/api/user"
 )
 
 

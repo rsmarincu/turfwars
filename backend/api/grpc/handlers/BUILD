@@ -8,6 +8,6 @@ go_library(
         ],
     deps = [
         "//backend/api/proto:user",
-        "//third_party/go:net"
+        "//third_party/go:x_net"
     ]
 )
