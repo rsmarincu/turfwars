@@ -8,18 +8,29 @@ import Home from "./components/Home";
 import HandleRedirect from "./components/HandleRedirect";
 import { UserContext } from "./components/UserContext";
 import { useLocalStorage } from "./hooks/UseLocalStorage";
-import { UserServiceClient } from "./proto/user_pb_service";
-import { GetUserRequest } from "./proto/user_pb";
+import { UserService } from "./proto/user_pb_service";
+import { GetUserRequest, User } from "./proto/user_pb";
+import { grpc } from "@improbable-eng/grpc-web";
+
+function getUser() {
+  const req = new GetUserRequest();
+  req.setName("robert");
+  grpc.unary(UserService.GetUser, {
+    request: req,
+    host: "http://localhost:8000",
+    onEnd: (res) => {
+      const { status, statusMessage, headers, message, trailers } = res;
+      if (status === grpc.Code.OK && message) {
+        console.log(message.toObject());
+      }
+    },
+  });
+}
 
 function App() {
   const [user, setUser] = useLocalStorage("currentUser", null);
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
-  const client = new UserServiceClient("https://localhost:50051");
-  const req = new GetUserRequest();
-  req.setName("robert");
-  client.getUser(req, null, (err, user) => {
-    console.log(user);
-  });
+  getUser();
 
   return (
     <div className="App">
