@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo --- Building my-envoy docker image ---
-docker build -t my-envoy:1.0 .
+docker build -t my-envoy:1.0 -f turfwars/envoy/Dockerfile
 
 
 echo --- Running my-envoy docker image ---

@@ -1,29 +1,24 @@
 import React from "react";
 import "./App.css";
+
 import { Route, Switch } from "react-router-dom";
 import { useState, useMemo } from "react";
+import { UserContext } from "./components/UserContext";
+import { useLocalStorage } from "./hooks/UseLocalStorage";
+import { UserServiceClient } from "./proto/user_pb_service";
+import { GetUserRequest } from "./proto/user_pb";
 
 import LoginScreen from "./components/LoginScreen";
 import Home from "./components/Home";
 import HandleRedirect from "./components/HandleRedirect";
-import { UserContext } from "./components/UserContext";
-import { useLocalStorage } from "./hooks/UseLocalStorage";
-import { UserService } from "./proto/user_pb_service";
-import { GetUserRequest, User } from "./proto/user_pb";
-import { grpc } from "@improbable-eng/grpc-web";
 
 function getUser() {
-  const req = new GetUserRequest();
-  req.setName("robert");
-  grpc.unary(UserService.GetUser, {
-    request: req,
-    host: "http://localhost:8000",
-    onEnd: (res) => {
-      const { status, statusMessage, headers, message, trailers } = res;
-      if (status === grpc.Code.OK && message) {
-        console.log(message.toObject());
-      }
-    },
+  var client = new UserServiceClient("http://localhost:8000");
+  var getUserRequest = new GetUserRequest();
+  getUserRequest.setName("Robert");
+  client.getUser(getUserRequest, null, function (err, res) {
+    var user = res.toObject();
+    console.log(user);
   });
 }
 
