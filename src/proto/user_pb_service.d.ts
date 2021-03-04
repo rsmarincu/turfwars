@@ -4,18 +4,18 @@
 import * as user_pb from "./user_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
-type UserServiceGetUser = {
+type UserServiceCreateUser = {
   readonly methodName: string;
   readonly service: typeof UserService;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof user_pb.GetUserRequest;
-  readonly responseType: typeof user_pb.GetUserResponse;
+  readonly requestType: typeof user_pb.CreateUserRequest;
+  readonly responseType: typeof user_pb.User;
 };
 
 export class UserService {
   static readonly serviceName: string;
-  static readonly GetUser: UserServiceGetUser;
+  static readonly CreateUser: UserServiceCreateUser;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -50,14 +50,14 @@ export class UserServiceClient {
   readonly serviceHost: string;
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
-  getUser(
-    requestMessage: user_pb.GetUserRequest,
+  createUser(
+    requestMessage: user_pb.CreateUserRequest,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: user_pb.GetUserResponse|null) => void
+    callback: (error: ServiceError|null, responseMessage: user_pb.User|null) => void
   ): UnaryResponse;
-  getUser(
-    requestMessage: user_pb.GetUserRequest,
-    callback: (error: ServiceError|null, responseMessage: user_pb.GetUserResponse|null) => void
+  createUser(
+    requestMessage: user_pb.CreateUserRequest,
+    callback: (error: ServiceError|null, responseMessage: user_pb.User|null) => void
   ): UnaryResponse;
 }
 

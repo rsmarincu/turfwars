@@ -6,7 +6,7 @@ import { useState, useMemo } from "react";
 import { UserContext } from "./components/UserContext";
 import { useLocalStorage } from "./hooks/UseLocalStorage";
 import { UserServiceClient } from "./proto/user_pb_service";
-import { GetUserRequest } from "./proto/user_pb";
+import { User, CreateUserRequest, GetUserRequest } from "./proto/user_pb";
 
 import LoginScreen from "./components/LoginScreen";
 import Home from "./components/Home";
@@ -14,9 +14,19 @@ import HandleRedirect from "./components/HandleRedirect";
 
 function getUser() {
   var client = new UserServiceClient("http://localhost:8000");
-  var getUserRequest = new GetUserRequest();
-  getUserRequest.setName("Robert");
-  client.getUser(getUserRequest, null, function (err, res) {
+  var req = new CreateUserRequest();
+  var user = new User();
+  user.setId("test");
+  user.setFirstName("robert");
+  user.setLastName("marincu");
+  user.setCity("london");
+  user.setCountry("UK");
+  user.setProfile("progile");
+  user.setProfileMedium("profilemed");
+  req.setRequestId("test");
+  req.setUser(user);
+
+  client.createUser(req, null, function (err, res) {
     var user = res.toObject();
     console.log(user);
   });
